@@ -6,7 +6,7 @@
 /*   By: ablaila <ablaila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/17 16:32:56 by ablaila           #+#    #+#             */
-/*   Updated: 2026/11/19 16:49:26 by ablaila          ###   ########.fr       */
+/*   Updated: 2026/11/20 22:32:33 by ablaila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@
 # define BUFFER_SIZE 8
 typedef struct s_strct
 {
-	int	indx;
-	int	offset;
+	char	res_chunk[BUFFER_SIZE];
+	char	new_chunk[BUFFER_SIZE];
+	int		offset;
+	int		indx;
 }			t_strct;
 
-void		ft_strcpy(char *dst, char *src, int size);
-char		*ft_strjoin(char *src, char *dst, t_strct *track, int nul);
-int			check_newline(char *str);
+char	*get_next_line(int fd);
 #endif

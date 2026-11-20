@@ -6,42 +6,36 @@
 /*   By: ablaila <ablaila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/19 20:16:01 by ablaila           #+#    #+#             */
-/*   Updated: 2026/11/19 21:01:15 by ablaila          ###   ########.fr       */
+/*   Updated: 2026/11/20 23:13:11 by ablaila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include	"get_next_line.c"
 
-int	get_next_chunk(st_chunk)
+void	get_full_line(char	*str)
 {
-	char	*tmp_buff;
-	int		res;
+	if (check_newline(str))
+}
 
-	nxt_chunk = malloc(sizeof(char) * BUFFER_SIZE);
-	if (!nxt_chunk)
-		return (NULL);
-	res =  read(fd, nxt_chunk, BUFFER_SIZE);
-		if (res == -1)
-			return (NULL);
-		else
-			offset += res;
-	get_join(st_chunk, nxt_chunk, offset);
-	
-}
-void	get_helper(int fd)
+char	*get_next_chunk(int fd, t_strct *track)
 {
-	static	char	*st_chunk;
-	static	int		offst = 0;
-	int		res;
-	
-	if (check_newline(st_chunk, &offst))
-	{
-		buffer = get_next_chunk(st_chunk)
-	}
-	res = read()
+	char	*line;
+
+	*(track->offset) = read(int fd, track->new_chunk, BUFFER_SIZE);
+	if (offset == -1)
+		return(NULL);
+	line = get_join(track->res_chnk, track->new_chunk);
+	if (!line)
+		return(NULL);
+	if (check_newline(line))
+		return (line);
 	
 }
+
 char	*get_next_line(int fd)
 {
+	static	t_strct	track;
 	
+	if (BUFFER_SIZE <= 0 || fd < 0)
+		return (NULL);	
 }
