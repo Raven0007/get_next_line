@@ -6,7 +6,7 @@
 /*   By: ablaila <ablaila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/17 16:32:56 by ablaila           #+#    #+#             */
-/*   Updated: 2026/11/20 22:32:33 by ablaila          ###   ########.fr       */
+/*   Updated: 2026/11/21 18:31:19 by ablaila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,20 @@
 #include <stdlib.h>
 #include <fcntl.h>
 #include <stdio.h>
-
-# define BUFFER_SIZE 8
+# ifndef BUFFER_SIZE
+# define BUFFER_SIZE 3
+# endif
 typedef struct s_strct
 {
-	char	res_chunk[BUFFER_SIZE];
-	char	new_chunk[BUFFER_SIZE];
-	int		offset;
-	int		indx;
+	char	*res_chunk;
+	char	*new_chunk;
+	long		indx;
+	long	offset;
 }			t_strct;
 
 char	*get_next_line(int fd);
+long	check_newline(char *str, int size);
+char	*str_join(char *line, t_strct *track, long *line_len);
+char	*get_join(t_strct *track, long *line_len);
+
 #endif

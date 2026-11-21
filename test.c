@@ -3,6 +3,19 @@
 int main()
 {
     int fd = open("test.txt", O_RDONLY);
-    char *buff = ;
-    printf("%d", read(fd, buff, 3));
+    char str[3];
+    printf("%zd", read(fd, str, 3));
+    printf("%s\n", str);
+    printf("%zd", read(fd, str, 3));
+    printf("%s\n", str);
+    printf("%zd", read(fd, str, 3));
+    printf("%s\n", str);
+    printf("%zd", read(fd, str, 3));
+    printf("%s\n", str);
+    printf("%zd", read(fd, str, 3));
+    printf("%s\n", str);
+    printf("%zd", read(fd, str, 3));
+    printf("%s\n", str);
+
+    // printf("%s\n", str);
 }
