@@ -6,74 +6,103 @@
 /*   By: ablaila <ablaila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/19 20:16:01 by ablaila           #+#    #+#             */
-/*   Updated: 2026/11/21 18:09:00 by ablaila          ###   ########.fr       */
+/*   Updated: 2026/11/23 14:53:49 by ablaila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include	"get_next_line.h"
 
-char	*get_full_line(int fd, t_strct *track, char	*line, long line_len)
+static void	free_alloc(t_strct *track)
+{
+	if (track->chunk)
+		free(track->chunk);
+	if (track->res_chunk)
+		free(track->res_chunk);
+}
+
+static char	*get_line(int fd, t_strct *track)
 {
 	char	*tmp_buffer;
-	long		bytes;
-
-	while (!check_newline(line, line_len))
-	{
-		bytes = read(fd, track->new_chunk, BUFFER_SIZE);
-		if (bytes == -1)
-			return(NULL);
-		if (bytes == 0)
-			break;
-		tmp_buffer = line;
-		line = str_join(line, track, &line_len);
-		free(tmp_buffer);
-		if (!line)
-			return(NULL);
-	}
-	track->res_chunk = track->new_chunk;
-	return (line);
-	
-}
-
-char	*get_next_chunk(int fd, t_strct *track)
-{
 	char	*line;
-	long		line_len;
-	long		bytes;
-
-	line_len = 0;
-	bytes = read(fd, track->new_chunk, BUFFER_SIZE);
-	if (bytes == -1 || bytes == 0)
+	long	line_len;
+	
+	tmp_buffer = malloc(sizeof(char) * BUFFER_SIZE);
+	if (!tmp_buffer)
 		return(NULL);
-	line = get_join(track, &line_len);
-	if (!line)
-		return(NULL);
-	return(get_full_line(fd, track, line, line_len));
+	line_len = track->bytes;
+	ft_memcpy(tmp_buffer, track->chunk, track->bytes);
+	while (!check_newline(track->chunk, track->bytes))
+	{
+		track->bytes = read(fd, track->chunk, BUFFER_SIZE);
+		if (track->bytes == -1)
+		{
+			free(tmp_buffer);
+			return (NULL);
+		}
+		line = str_join(tmp_buffer, track, &line_len);
+		if (!line)
+		{
+			free(tmp_buffer);
+			return(NULL);
+		}
+		free(tmp_buffer);
+		tmp_buffer = line;
+	}
+	line[line_len] = '\0';
+	ft_memcpy(track->res_chunk, track->chunk, track->bytes);
+	track->res_len = 0;
+	return(line);
 }
+static char	*get_helper(t_strct *track, int fd)
+{
+	char	*buff;
+	long	buff_len;
+	long	i;
 
+	i = -1;
+	if (check_newline(track->chunk, track->bytes))
+	{
+		buff = malloc((track->bytes + 1) * sizeof(char));
+		if (!buff)
+			return(NULL);
+		buff_len = get_indx(track->chunk, track) + 1;
+		while (++i  < buff_len)
+			buff[i] = (track->chunk)[i];
+		buff[i] = '\0';
+			track->res_len = 0;
+	}
+	else
+		buff = get_line(fd, track);
+	ft_memcpy(track->res_chunk, track->chunk, track->bytes);
+	return(buff);
+}
 char	*get_next_line(int fd)
 {
-	static	t_strct	track;
 	char	*str;
+	t_strct	track;
 
-	if (!track.res_chunk)
-		track.res_chunk = malloc(sizeof(char) * BUFFER_SIZE);
-	track.new_chunk = malloc(sizeof(char) * BUFFER_SIZE);
 	if (BUFFER_SIZE <= 0 || fd < 0)
 		return (NULL);
-	str = get_next_chunk(fd, &track);
-	return (str);
-}
-int main()
-{
-	int fd = open("test.txt", O_RDONLY);
-	char *str;
-	while ((str = get_next_line(fd)))
+	track.chunk = malloc(sizeof(char) * BUFFER_SIZE);
+	if (!track.chunk)
+		return(NULL);
+	if (track.res_len)
 	{
-
-		printf("%s", str);
-		free(str);
-		
+		track.res_chunk = malloc(sizeof(char) * BUFFER_SIZE);
+		if (!track.res_chunk)
+		{
+			free_alloc(&track);
+			return (NULL);
+		}
 	}
-	return (0);
+	track.bytes = read(fd, track.chunk, BUFFER_SIZE);
+	if (track.bytes == -1)
+	{
+		free_alloc(&track);
+		return(NULL);
+	}
+	str = get_helper(&track, fd);
+	if (!str)
+		free_alloc(&track);
+	return (str);
 }
