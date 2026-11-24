@@ -5,75 +5,98 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ablaila <ablaila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/11/17 18:54:58 by ablaila           #+#    #+#             */
-/*   Updated: 2026/11/23 14:45:47 by ablaila          ###   ########.fr       */
+/*   Created: 2026/11/23 16:32:44 by ablaila           #+#    #+#             */
+/*   Updated: 2026/11/24 12:12:15 by ablaila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	check_newline(char *str, long size)
+t_list	*find_last_node(t_list *list)
 {
-	long i;
-	
-	i = 0;
-	while (i < size)
-	{
-		if (str[i] == '\n')
-			return (1);
-		i++;
-	}
-	return(0);
-}
-
-long	get_indx(char *str, t_strct *track)
-{
-	long		i;
-	
-	i = 0;
-	while(i < track->bytes)
-	{
-		if (str[i] == '\n')
-			break;
-		i++;
-	}
-	return (i);
-}
-
-char	*str_join(char *line, t_strct *track, long *line_len)
-{
-		char	*join;
-		long	pos;
-		long	chunk_len;
-		long	i;
-
-		chunk_len = track->bytes;
-		if (check_newline(track->chunk, track->bytes))
-			chunk_len = get_indx(track->chunk, track) + 2;
-		join = malloc(sizeof(char) * chunk_len + *line_len);
-		if (!join)
-			return(NULL);
-		i = -1;
-		while (++i < *line_len)
-			join[i] = line[i];
-		i = -1;
-		while (++i < chunk_len)
-			join[i + *line_len] = (track->chunk)[i];
-		*line_len += chunk_len;
-		return(join);
-}
-
-void	*ft_memcpy(char *dest, char *src, long n)
-{
-	long	i;
-
-	if (!dest || !src)
+	if (!list)
 		return (NULL);
-	i = 0;
-	while (i < n)
+	while (list->next)
+		list = list->next;
+	return (list);
+}
+
+void	lst_clear(t_list **list)
+{
+	t_list	*tmp;
+
+	while (*list)
 	{
-		dest[i] = src[i];
-		i++;
+		tmp = (*list)->next;
+		free((*list)->content);
+		free(*list);
+		*list = tmp;
 	}
-	return (dest);
+}
+
+int	add_node(t_list **list , char *str)
+{
+	t_list	*node;
+	t_list *last_node;
+	
+	last_node = find_last_node(*list);
+	node = malloc(sizeof(t_list));
+	if (!node)
+	{
+		lst_clear(list);
+		return(0);
+	}
+	if (!last_node)
+		*list = node;
+	else
+		last_node -> next = node;
+	node->content = str;
+	node -> next = NULL;
+	return(1);
+}
+
+void	ft_strlcat(char	*dst, char *src)
+{
+	size_t		des_len;
+	size_t		src_len;
+	size_t		i;
+
+	i = -1;
+	des_len = 0;
+	src_len	= 0;
+	while (dst[des_len])
+		des_len++;
+	while (src[src_len] && src[src_len] != '\n')
+		src_len++;
+	while (++i <= src_len)
+		dst[i + des_len] = src[i];
+}
+
+int		add_front(t_list **list, char *str, long *total_len)
+{
+	t_list		*node;
+	size_t		len;
+	size_t		i;
+	size_t		j;
+
+	len = 0;
+	i = 0;
+	j = -1;
+	while (str[len])
+		len++;
+	while (str[i] && str[i] != '\n')
+		i++;
+	node = malloc (sizeof(t_list));
+	if (!node)
+	{
+		lst_clear(list);
+		return(0);
+	}
+	node->content = str;
+	while (++j < len - i)
+		(node->content)[j] = str[i + j + 1];
+	*total_len += len - i - 1;
+	node->next = (*list)->next;
+	(*list)->next = node;
+	return (1);
 }

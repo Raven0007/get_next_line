@@ -6,7 +6,7 @@
 /*   By: ablaila <ablaila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/17 16:32:56 by ablaila           #+#    #+#             */
-/*   Updated: 2026/11/23 14:58:11 by ablaila          ###   ########.fr       */
+/*   Updated: 2026/11/24 11:43:52 by ablaila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,21 @@
 # ifndef BUFFER_SIZE
 # define BUFFER_SIZE 4
 # endif
-#include <unistd.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <fcntl.h>
-#include <stdio.h>
+#include <stdio.h>  // remove it 
 
-typedef struct s_strct
+typedef struct s_list
 {
-	char	*res_chunk;
-	char	*chunk;
-	long	res_len;
-	long	bytes;
-}			t_strct;
+	char	*content;
+	struct s_list	*next;
+}			t_list;
 
-void	*ft_memcpy(char *dest, char *src, long n);
-char	*str_join(char *line, t_strct *track, long *line_len);
-long	get_indx(char *str, t_strct *track);
-int		check_newline(char *str, long size);
-char	*get_next_line(int fd);
+t_list	*find_last_node(t_list *list);
+int		add_node(t_list **list , char *str);
+char 	*get_next_line(int fd);
+void	lst_clear(t_list **list);
+void	ft_strlcat(char	*dst, char *src);
+int		add_front(t_list **list, char *str, long *total_len);
 #endif
