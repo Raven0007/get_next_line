@@ -6,7 +6,7 @@
 /*   By: ablaila <ablaila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/23 16:32:13 by ablaila           #+#    #+#             */
-/*   Updated: 2026/11/24 15:02:41 by ablaila          ###   ########.fr       */
+/*   Updated: 2026/11/24 16:13:49 by ablaila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,20 +49,20 @@ static int		check_new(char *str)
 
 static char		*ft_strdup(char *str)
 {
-	size_t	len;
-	size_t	i;
+	long	len;
 	char	*dup;
-
+	
 	len = 0;
-	i = 0;
 	while (str[len])
 		len++;
-	while (str[i] && str[i] != '\n')
-		i++;
 	dup = malloc(len + 1);
-	len = -1;
-	while (str[++len + i + 1])
-		dup[len] = str[len + i + 1];
+	if (!dup)
+		return(NULL);
+	while(len >= 0)
+	{
+		dup[len] = str[len];
+		len--;
+	}
 	return(dup); 
 }
 
@@ -92,7 +92,7 @@ char		*get_nodes(t_list *list, int fd)
 			return(NULL);
 	if (*bytes == 0)
 		return(NULL);
-	rest = ft_strdup(chunk);
+	rest = ft_strdup(find_last_node(list)->content);
 	return (get_line(list, bytes[1]));
 }
 

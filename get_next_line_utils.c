@@ -6,7 +6,7 @@
 /*   By: ablaila <ablaila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/23 16:32:44 by ablaila           #+#    #+#             */
-/*   Updated: 2026/11/24 12:12:15 by ablaila          ###   ########.fr       */
+/*   Updated: 2026/11/24 15:40:16 by ablaila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,19 +57,18 @@ int	add_node(t_list **list , char *str)
 
 void	ft_strlcat(char	*dst, char *src)
 {
-	size_t		des_len;
-	size_t		src_len;
-	size_t		i;
+	size_t	dst_len;
+	size_t	i;
 
-	i = -1;
-	des_len = 0;
-	src_len	= 0;
-	while (dst[des_len])
-		des_len++;
-	while (src[src_len] && src[src_len] != '\n')
-		src_len++;
-	while (++i <= src_len)
-		dst[i + des_len] = src[i];
+	dst_len =  0;
+	i = 0;
+	while(dst[dst_len])
+		dst_len++;
+	while(src[i] && src[i] != '\0')
+		dst[dst_len + i] = src[i];
+	if (src[i] == '\n')
+		dst[dst_len + i++] = '\n';
+	dst[dst_len + i] = '\0';
 }
 
 int		add_front(t_list **list, char *str, long *total_len)
