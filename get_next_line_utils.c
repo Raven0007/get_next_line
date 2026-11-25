@@ -6,7 +6,7 @@
 /*   By: ablaila <ablaila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/23 16:32:44 by ablaila           #+#    #+#             */
-/*   Updated: 2026/11/24 15:40:16 by ablaila          ###   ########.fr       */
+/*   Updated: 2026/11/24 16:40:51 by ablaila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,11 @@ void	ft_strlcat(char	*dst, char *src)
 	i = 0;
 	while(dst[dst_len])
 		dst_len++;
-	while(src[i] && src[i] != '\0')
+	while(src[i] && src[i] != '\n')
+	{
 		dst[dst_len + i] = src[i];
+		i++;
+	}
 	if (src[i] == '\n')
 		dst[dst_len + i++] = '\n';
 	dst[dst_len + i] = '\0';

@@ -6,7 +6,7 @@
 /*   By: ablaila <ablaila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/23 16:32:13 by ablaila           #+#    #+#             */
-/*   Updated: 2026/11/24 16:13:49 by ablaila          ###   ########.fr       */
+/*   Updated: 2026/11/24 17:13:55 by ablaila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,21 +49,25 @@ static int		check_new(char *str)
 
 static char		*ft_strdup(char *str)
 {
-	long	len;
+	size_t	pos;
+	size_t	len;
+	size_t	i;
 	char	*dup;
-	
-	len = 0;
-	while (str[len])
-		len++;
-	dup = malloc(len + 1);
-	if (!dup)
-		return(NULL);
-	while(len >= 0)
+
+	i = 0;
+    pos = 0;
+    len = 0;
+    while (str[pos] != '\n')
+        pos++;
+    while (str[pos + len])
+        len++;
+    dup = malloc(len);
+    while (i < len)
 	{
-		dup[len] = str[len];
-		len--;
+      dup[i] = str[pos + i + 1];
+	  i++;
 	}
-	return(dup); 
+    return(dup);
 }
 
 char		*get_nodes(t_list *list, int fd)
