@@ -6,7 +6,7 @@
 /*   By: ablaila <ablaila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/23 16:32:13 by ablaila           #+#    #+#             */
-/*   Updated: 2026/11/26 17:56:20 by ablaila          ###   ########.fr       */
+/*   Updated: 2026/11/26 18:33:39 by ablaila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,9 @@ static char	*ft_strdup(char *str)
 static void	creat_nodes(t_list **list, int fd)
 {
 	char 	*chunk;
-	size_t	bytes;
+	long	bytes;
 
-	while (!check_new((*list)->content))
+	while (*lsit == NULL || !check_new((*list)->content))
 	{
 		chunk = malloc((size_t)BUFFER_SIZE + 1);
 		if (!chunk)
@@ -102,6 +102,7 @@ char		*get_next_line(int fd)
 	static	t_list	*list;
 	size_t	len;
 	char	*line;
+	char	*buff;
 	t_list	*elem;
 	
 	if (BUFFER_SIZE <= 0 || fd < 0)
@@ -112,9 +113,9 @@ char		*get_next_line(int fd)
 	elem = malloc(sizeof(size_t));
 	if (!elem)
 		return(NULL);
-	elem->content = ft_strdup(find_last_node(list)->content);
-	elem->next = list;
-	list = elem;
+	buff = ft_strdup(find_last_node(list)->content);
 	lst_clear(&list);
+	elem->content = buff;
+	list = elem;
 	return(line);
 }
