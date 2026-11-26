@@ -10,5 +10,8 @@ int main()
 	str = get_next_line(fd);
 	printf("%s", str);
 	free(str);
+	str = get_next_line(fd);
+	printf("%s", str);
+	free(str);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: ablaila <ablaila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/23 16:32:44 by ablaila           #+#    #+#             */
-/*   Updated: 2026/11/24 16:40:51 by ablaila          ###   ########.fr       */
+/*   Updated: 2026/11/26 17:46:34 by ablaila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,22 @@ void	lst_clear(t_list **list)
 		free(*list);
 		*list = tmp;
 	}
+}
+
+size_t	lst_len(t_list *list)
+{
+	size_t	len;
+	
+	if (!list->content)
+		return (0);
+	len = 0;
+	while(list)
+	{
+		while(list->content[len])
+			len++;
+		list = list->next;
+	}
+	return(len);
 }
 
 int	add_node(t_list **list , char *str)
@@ -74,31 +90,3 @@ void	ft_strlcat(char	*dst, char *src)
 	dst[dst_len + i] = '\0';
 }
 
-int		add_front(t_list **list, char *str, long *total_len)
-{
-	t_list		*node;
-	size_t		len;
-	size_t		i;
-	size_t		j;
-
-	len = 0;
-	i = 0;
-	j = -1;
-	while (str[len])
-		len++;
-	while (str[i] && str[i] != '\n')
-		i++;
-	node = malloc (sizeof(t_list));
-	if (!node)
-	{
-		lst_clear(list);
-		return(0);
-	}
-	node->content = str;
-	while (++j < len - i)
-		(node->content)[j] = str[i + j + 1];
-	*total_len += len - i - 1;
-	node->next = (*list)->next;
-	(*list)->next = node;
-	return (1);
-}

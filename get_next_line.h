@@ -6,7 +6,7 @@
 /*   By: ablaila <ablaila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/17 16:32:56 by ablaila           #+#    #+#             */
-/*   Updated: 2026/11/24 11:43:52 by ablaila          ###   ########.fr       */
+/*   Updated: 2026/11/26 17:44:58 by ablaila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,5 @@ int		add_node(t_list **list , char *str);
 char 	*get_next_line(int fd);
 void	lst_clear(t_list **list);
 void	ft_strlcat(char	*dst, char *src);
-int		add_front(t_list **list, char *str, long *total_len);
+size_t	lst_len(t_list *list);
 #endif
