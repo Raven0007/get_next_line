@@ -6,7 +6,7 @@
 /*   By: ablaila <ablaila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/23 16:32:13 by ablaila           #+#    #+#             */
-/*   Updated: 2026/11/26 18:33:39 by ablaila          ###   ########.fr       */
+/*   Updated: 2026/11/26 19:27:23 by ablaila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,11 @@ static char		*get_line(t_list *list, size_t len)
 		list = list->next;
 	}
 	line[len] = '\0';
-	lst_clear(&list);
 	return (line);
 }
 
 static int		check_new(char *str)
 {
-	if (!str)
-		return(0);
 	while (*str)
 	{
 		if (*str == '\n')
@@ -80,7 +77,7 @@ static void	creat_nodes(t_list **list, int fd)
 	char 	*chunk;
 	long	bytes;
 
-	while (*lsit == NULL || !check_new((*list)->content))
+	while (*list == NULL || !check_new(find_last_node(*list)->content))
 	{
 		chunk = malloc((size_t)BUFFER_SIZE + 1);
 		if (!chunk)

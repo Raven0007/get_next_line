@@ -6,7 +6,7 @@
 /*   By: ablaila <ablaila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/23 16:32:44 by ablaila           #+#    #+#             */
-/*   Updated: 2026/11/26 17:46:34 by ablaila          ###   ########.fr       */
+/*   Updated: 2026/11/26 19:17:27 by ablaila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,20 @@ void	lst_clear(t_list **list)
 size_t	lst_len(t_list *list)
 {
 	size_t	len;
+	size_t	i;
 	
 	if (!list->content)
 		return (0);
 	len = 0;
+	i = 0;
 	while(list)
 	{
-		while(list->content[len])
+		i = 0;
+		while(list->content[i])
+		{
 			len++;
+			i++;
+		}
 		list = list->next;
 	}
 	return(len);

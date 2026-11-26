@@ -6,14 +6,14 @@
 /*   By: ablaila <ablaila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/17 16:32:56 by ablaila           #+#    #+#             */
-/*   Updated: 2026/11/26 17:44:58 by ablaila          ###   ########.fr       */
+/*   Updated: 2026/11/26 19:30:17 by ablaila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # ifndef GET_NEXT_LINE
 # define GET_NEXT_LINE
 # ifndef BUFFER_SIZE
-# define BUFFER_SIZE 4
+# define BUFFER_SIZE 5
 # endif
 #include <stdlib.h>
 #include <unistd.h>
