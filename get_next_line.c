@@ -72,7 +72,7 @@ static char	*ft_strdup(char *str)
 }
 
 
-static void	creat_nodes(t_list **list, int fd)
+static int	creat_nodes(t_list **list, int fd)
 {
 	char 	*chunk;
 	long	bytes;
@@ -81,17 +81,18 @@ static void	creat_nodes(t_list **list, int fd)
 	{
 		chunk = malloc((size_t)BUFFER_SIZE + 1);
 		if (!chunk)
-			return;
+			return (0);
 		bytes = read(fd, chunk, BUFFER_SIZE);
 		if (bytes <= 0)
 		{
 			free(chunk);
-			return;
+			return (0);
 		}
 		chunk[bytes] = '\0';
 		if (!add_node(list, chunk))
-			return;
+			return (0);
 	}
+	return (1);
 }
 
 char		*get_next_line(int fd)
@@ -104,15 +105,20 @@ char		*get_next_line(int fd)
 	
 	if (BUFFER_SIZE <= 0 || fd < 0)
 		return (NULL);
-	creat_nodes(&list, fd);
+	if (!creat_nodes(&list, fd))
+	{
+		lst_clear(&list);
+		return (NULL);
+	}
 	len = lst_len(list);
 	line = get_line(list, len);
-	elem = malloc(sizeof(size_t));
+	elem = malloc(sizeof(t_list));
 	if (!elem)
 		return(NULL);
 	buff = ft_strdup(find_last_node(list)->content);
 	lst_clear(&list);
 	elem->content = buff;
+	elem->next = NULL;
 	list = elem;
 	return(line);
 }
